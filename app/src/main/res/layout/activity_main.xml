@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:map="http://schemas.android.com/apk/res-auto">
+<androidx.fragment.app.FragmentContainerView
+    map:layout_constraintTop_toTopOf="parent"
+    map:layout_constraintStart_toStartOf="parent"
+    map:layout_constraintEnd_toEndOf="parent"
+    tools:context=".MainActivity"
+    android:layout_width="match_parent"
+    android:layout_height="380dp"
+    android:id="@+id/map"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    map:uiZoomControls="true"
+    map:uiRotateGestures="true"
+
+    >
+</androidx.fragment.app.FragmentContainerView>
+    <TextView
+        android:id="@+id/testo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Case Avolio"
+        android:textSize="20sp"
+        map:layout_constraintTop_toBottomOf="@+id/map"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="5dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardnapoli"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        map:layout_constraintTop_toBottomOf="@+id/testo"
+        map:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        map:strokeColor="@color/black"
+        map:strokeWidth="1dp"
+        >
+        <TextView
+            android:id="@+id/casanapoli"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Casa a Napoli"
+            android:textSize="15sp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardmarsiglia"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        map:layout_constraintTop_toBottomOf="@+id/cardnapoli"
+        map:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        map:strokeColor="@color/black"
+        map:strokeWidth="1dp"
+        >
+        <TextView
+            android:id="@+id/casamarsiglia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Casa a Marsiglia"
+            android:textSize="15sp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardvigevano"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        map:layout_constraintTop_toBottomOf="@+id/cardmarsiglia"
+        map:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        map:strokeColor="@color/black"
+        map:strokeWidth="1dp"
+        >
+        <TextView
+            android:id="@+id/casavigevano"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Casa a Vigevano"
+            android:textSize="15sp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            />
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
