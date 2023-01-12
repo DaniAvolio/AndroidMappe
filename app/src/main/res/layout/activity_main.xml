@@ -35,11 +35,13 @@
     <ListView
         android:id="@+id/mialistview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         map:layout_constraintTop_toBottomOf="@id/testo"
+        map:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginTop="25dp"
+
         />
 
 
