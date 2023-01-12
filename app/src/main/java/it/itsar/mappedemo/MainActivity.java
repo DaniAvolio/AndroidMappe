@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -20,8 +22,7 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     GoogleMap mMap;
-    TextView casanapoli, casamarsiglia, casavigevano;
-    MaterialCardView cardnapoli, cardmarsiglia, cardvigevano;
+    ListView listView;
 
     ArrayList<LatLng> puntidiinteresse = new ArrayList<>(Arrays.asList(
             new LatLng(43.313408494995215, 5.440629846937431),
@@ -33,13 +34,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        listView = findViewById(R.id.mialistview);
 
-        casanapoli = findViewById(R.id.casanapoli);
-        casamarsiglia = findViewById(R.id.casamarsiglia);
-        casavigevano = findViewById(R.id.casavigevano);
-        cardnapoli = findViewById(R.id.cardnapoli);
-        cardvigevano = findViewById(R.id.cardvigevano);
-        cardmarsiglia = findViewById(R.id.cardmarsiglia);
+        ArrayAdapter<LatLng> arrayAdapter = new ArrayAdapter<>(MainActivity.this,
+                android.R.layout.simple_list_item_1,
+                puntidiinteresse
+                );
+        listView.setAdapter(arrayAdapter);
+
+
 
 
         SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -72,17 +75,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.moveCamera(CameraUpdateFactory.newLatLng(casaScampia));
         mMap.moveCamera(CameraUpdateFactory.zoomTo(7));
 
-        cardmarsiglia.setOnClickListener(view -> {
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(casaMarsiglia));
-            mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
-        });
-        cardvigevano.setOnClickListener(view -> {
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(casaVigevano));
-            mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
-        });
-        cardnapoli.setOnClickListener(view -> {
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(casaScampia));
-            mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(puntidiinteresse.get(i)));
+
         });
 
     }
