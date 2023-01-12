@@ -24,11 +24,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     GoogleMap mMap;
     ListView listView;
 
-    ArrayList<LatLng> puntidiinteresse = new ArrayList<>(Arrays.asList(
-            new LatLng(43.313408494995215, 5.440629846937431),
-            new LatLng(45.32497218514314, 8.871504482106992),
-            new LatLng(40.902226980344835, 14.23215066541254)
-    ));
+    ArrayList<PuntoDiInteresse> puntidiinteresse = new ArrayList<>(Arrays.asList(
+            new PuntoDiInteresse("Casa a Napoli", "casa nonni a secondigliano",40.902226980344835 , 14.23215066541254),
+            new PuntoDiInteresse("Casa a Marsiglia", "casa genitori a marsiglia", 43.313408494995215, 5.4406298469374310),
+            new PuntoDiInteresse("Casa a Vigevano", "casa mia a vigevano",45.32497218514314 ,8.871504482106992),
+            new PuntoDiInteresse("Colosseo", "monumento storico romano",41.890385889031506, 12.492230897852393),
+            new PuntoDiInteresse("Piazza ducale", "piazza di vigevano",45.31736824362621, 8.858049426808405),
+            new PuntoDiInteresse("Stadio Diego Armando maradona", "stadio della SSC Napoli",40.82806630515032, 14.193082538790664),
+            new PuntoDiInteresse("Stadio San Siro", "stadio del Milan e Inter",45.478326399796025, 9.12368696891075),
+            new PuntoDiInteresse("Stadio juventus stadium", "stadio della juventus",45.10973351878945, 7.641318184245245)
+
+            ));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_main);
         listView = findViewById(R.id.mialistview);
 
-        ArrayAdapter<LatLng> arrayAdapter = new ArrayAdapter<>(MainActivity.this,
+        ArrayAdapter<PuntoDiInteresse> arrayAdapter = new ArrayAdapter<>(MainActivity.this,
                 android.R.layout.simple_list_item_1,
                 puntidiinteresse
                 );
@@ -56,28 +62,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
-        LatLng casaMarsiglia = new LatLng(43.313408494995215, 5.440629846937431);
-        mMap.addMarker(new MarkerOptions()
-                .position(casaMarsiglia)
-                .title("Casa Marsiglia"));
-
-        LatLng casaVigevano = new LatLng(45.32497218514314, 8.871504482106992);
-        mMap.addMarker(new MarkerOptions()
-                .position(casaVigevano)
-                .title("Casa Vigevano"));
-
-        LatLng casaScampia = new LatLng(40.902226980344835, 14.23215066541254);
-        mMap.addMarker(new MarkerOptions()
-                .position(casaScampia)
-                .title("Casa Scampia"));
-
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(casaScampia));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(puntidiinteresse.get(0).getLatLng()));
         mMap.moveCamera(CameraUpdateFactory.zoomTo(7));
 
         listView.setOnItemClickListener((adapterView, view, i, l) -> {
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(puntidiinteresse.get(i)));
-
+            mMap.addMarker(new MarkerOptions()
+                    .position(puntidiinteresse.get(i).getLatLng())
+                    .title(puntidiinteresse.get(i).getDescrizione()));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(puntidiinteresse.get(i).getLatLng()));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(puntidiinteresse.get(i).getLatLng(), 15));
         });
 
     }
