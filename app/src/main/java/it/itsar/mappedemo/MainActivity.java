@@ -1,5 +1,7 @@
 package it.itsar.mappedemo;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -11,17 +13,22 @@ import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
@@ -36,6 +43,15 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
     private boolean permissionDenied = false;
     GoogleMap mMap;
     ListView listView;
+    LatLng defaultLocation = new LatLng(43.08767655030836, 12.406018762361617);
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private boolean locationpermissioneGranted;
+    public static int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION =1;
+    private Location lastKnownLocation;
+    private static final int DEFAULT_ZOOM = 15;
+
+
+
 
     ArrayList<PuntoDiInteresse> puntidiinteresse = new ArrayList<>(Arrays.asList(
             new PuntoDiInteresse("Casa a Napoli", "casa nonni a secondigliano",40.902226980344835 , 14.23215066541254),
@@ -55,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
         setContentView(R.layout.activity_main);
         listView = findViewById(R.id.mialistview);
 
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
         ArrayAdapter<PuntoDiInteresse> arrayAdapter = new ArrayAdapter<>(MainActivity.this,
                 android.R.layout.simple_list_item_1,
                 puntidiinteresse
@@ -65,8 +83,8 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                 .findFragmentById(R.id.map);
         assert supportMapFragment != null;
         supportMapFragment.getMapAsync(this);
-
     }
+
 
     public void onMapReady(GoogleMap googleMap){
         mMap = googleMap;
@@ -76,13 +94,17 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
         enableMyLocation();
 
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(puntidiinteresse.get(0).getLatLng()));
-        mMap.moveCamera(CameraUpdateFactory.zoomTo(7));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(defaultLocation));
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(5));
 
-        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+        for(int i = 0; i< puntidiinteresse.size(); i++){
             mMap.addMarker(new MarkerOptions()
                     .position(puntidiinteresse.get(i).getLatLng())
                     .title(puntidiinteresse.get(i).getDescrizione()));
+        }
+
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+
             mMap.moveCamera(CameraUpdateFactory.newLatLng(puntidiinteresse.get(i).getLatLng()));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(puntidiinteresse.get(i).getLatLng(), 15));
         });
@@ -116,13 +138,9 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
         Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            return;
-        }
+
+
+
 
        /* if (PermissionUtils.isPermissionGranted(permissions, grantResults,
                 Manifest.permission.ACCESS_FINE_LOCATION) || PermissionUtils
@@ -137,7 +155,6 @@ public class MainActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
         }
 
         */
-    }
 
 
 
